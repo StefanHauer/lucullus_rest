@@ -31,6 +31,7 @@ def get_name_to_id_dict(type, auth):
         String of type of dictionary.
     auth : tuple
         Tuple of username and password.
+        
     Returns
     -------
         * Dictionary that takes port names (str) as keys

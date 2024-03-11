@@ -1,6 +1,13 @@
-MIT License
+Project Name: Rest-API Framework, lucullus_rest
+Description: Everything related to accessing the REST API of Lucullus ® (Securecell AG) with Python.
+The scripts were developed by ZHAW (Institute of Embedded Systems at Zurich University of
+Applied Sciences, Switzerland) as part of the Innosuisse-Project 41524.1 IP-ENG 
+(Digitalization and Automated Tools in Biotech 4.0 – Efficient Bio-processing via Fully 
+Integrated Manufacturing Chains)
 
-Copyright (c) 2024, Securecell AG
+MIT License
+Copyright (c) 2024 ZHAW (Institute of Embedded Systems at Zurich University of Applied 
+Sciences) & Securecell AG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +26,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+https://mit-license.org/

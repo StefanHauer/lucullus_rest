@@ -1,35 +1,52 @@
 # lucullus_rest
 
-Everything related to accessing the REST API of Lucullus with Python.
+![version](https://img.shields.io/badge/version-0.1-brightgreen)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/StefanHauer/lucullus_rest/blob/main/LICENSE.txt)
+
+**lucullus_rest** is a Python package to access information via the REST-API of the Lucullus Process and Information Management System (PIMS) of Securecell. It is meant to make retrieval of information as easy as possible and to also provide a simple framework for creating process control loops for bioprocesses.
+
+## Table of contents
+
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [The Controller Class](#the-controller-class)
+  - [Further Information](#further-information)
+- [Roadmap](#license)
+- [Support and Contribution](#support-and-contribution)
+- [License](#license)
+- [Background](#background)
 
 ## Installation
 
-Download the repository from [github](https://github.zhaw.ch/BPT/lucullus_rest) and install it in a folder on your path. For this either
+Download the repository from [github](https://github.com/StefanHauer/lucullus_rest) and save it to a folder on your path. For this either
   * add the folder to your system path,
   * or add the files into the folder "site-packages" where your Python installation resides.
 
-To function the following libraries are needed:
-  * numpy
-  * pandas
-  * requests
-  * datetime
+Afterward, change the variable *rest_url* to use the IP adress of your Lucullus server.
 
-The libaries can be installed using the pip command in your command window:
-```
-pip install numpy
-```
+## Dependencies 
+
+This package was created for use of **Python 3.11** together with **Lucullus 23.0** and needs the following Python libraries to function:
+
+  * numpy >= 1.24.3
+  * pandas >= 1.5.2
+  * requests >= 2.31.0
+  * json >= 2.0.9
+  * ipadress >= 1.0
 
 ## Usage
 
 ### Basic usage
 
-To use lucullus_rest, simply start python and import it via the import command.
+To use *lucullus_rest*, simply start python and import it via the import command.
 
 ```python
 import lucullus_rest
 ```
 
-If you would like to export and save process data use the 'export_to_df' function:
+If you would like to export and save process data use the *'export_to_df'* function:
 
 ```python
 from lucullus_rest.core import export_to_df
@@ -71,7 +88,7 @@ df.to_excel(save_path)
 ### The Controller class
 
 What is more, the lucullus_rest library also allows for easy 
-creation of controllers using the 'Controller' class.
+creation of controllers using the *'Controller'* class.
 
 ![image](./docs/img/ControlCycle.png)
 
@@ -122,11 +139,13 @@ c = Controller(process, port_names, auth,
 )
 ```
 
-After creation of the controller, we can check perform some basic checks by calling the 'function_test' function:
+After creation of the controller, we can check perform some basic checks by calling the *'function_test'* function:
 
 ```python
 c.function_test()
 ```
+
+Please note, that those tests only test for the function of the general controller class, but not a specific one. To be sure that those will function as intended, specific unit tests should be written and run.
 
 We start the update cycle with the following command:
 
@@ -177,10 +196,7 @@ In this example, there is only the __init__ function, which defines the needed p
 
 ### Further Information
 
-More examples of use cases or controllers can be found in this repository under /docs/examples as Jupyter notebooks.
-
-
-Please note, that those tests only test for the function of the general controller class, but not a specific one. To be sure that those will function as intended, specific unit tests should be written and run.
+More examples of use cases or controllers can be found in this repository under [/docs/examples](https://github.com/StefanHauer/lucullus_rest/tree/main/docs/examples) as Jupyter notebooks.
 
 ## Roadmap
 
@@ -192,8 +208,12 @@ Please note, that those tests only test for the function of the general controll
 
 ## Support and Contribution
 
-If you have questions, suggestions, or want to contribute, just write me per mail at hatr@zhaw.ch.
+If you find bugs, experience issues, or have suggestions for improvements, feel free to use the [GitHub issue tracker](https://github.com/StefanHauer/lucullus_rest/issues).
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+The code is provided under an [MIT license](https://github.com/StefanHauer/lucullus_rest/blob/main/LICENSE.txt).
+
+## Background
+
+The package was initially developed by ZHAW (Institute of Embedded Systems at Zurich University of Applied Sciences, Switzerland) as part of the Innosuisse-Project 41524.1 IP-ENG (Digitalization and Automated Tools in Biotech 4.0 – Efficient Bio-processing via Fully Integrated Manufacturing Chains).
