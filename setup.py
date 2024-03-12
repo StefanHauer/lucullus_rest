@@ -16,7 +16,7 @@ setup(
     license='MIT',
     packages=['lucullus_rest'],
     install_requires=[
-        "numpy", "pandas", "requests", "json", "ipaddress"
+        "numpy", "pandas", "requests", "ipaddress"
     ],
     zip_safe=False
 )

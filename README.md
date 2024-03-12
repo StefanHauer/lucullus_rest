@@ -35,7 +35,6 @@ This package was created for use of **Python 3.11** together with **Lucullus 23.
   * numpy >= 1.24.3
   * pandas >= 1.5.2
   * requests >= 2.31.0
-  * json >= 2.0.9
   * ipaddress >= 1.0
 
 ## Usage
