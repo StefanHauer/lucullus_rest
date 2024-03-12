@@ -14,6 +14,8 @@ import pandas as pd
 from lucullus_rest.utils import dictionaries_to_df
 
 REST_URL = "http://XXX.XXX.XXX.XXX:8080/lpims/rest/v1/"
+UNATTENDED_REQUEST = "?UNATTENDED_REQUEST=true"
+TIMEOUT = 20
 
 try:
     ip_address(REST_URL.split("http://")[1].split(":8080")[0])
@@ -22,8 +24,6 @@ except ValueError:
         "The IP adress defined in the core.py file seems to be not valid. "
         "Change the IP adress to the IP adress of your server."
     )
-
-UNATTENDED_REQUEST = "?UNATTENDED_REQUEST=true"
 
 def get_name_to_id_dict(resource_type, auth):
     """Create dictionary that takes names as keys and IDs
@@ -41,14 +41,14 @@ def get_name_to_id_dict(resource_type, auth):
         * Dictionary that takes port names (str) as keys
             and port IDs as values.
     """
-    response = requests.get(REST_URL+resource_type, auth=auth)
+    response = requests.get(REST_URL+resource_type, auth=auth, timeout=TIMEOUT)
     id_dict = {}
     if response.status_code == 200:
         json_data = response.json()
         for port in json_data["data"]:
-            id_dict.update({port[u"name"]:port[u"id"]})
+            id_dict.update({port["name"]:port["id"]})
     else:
-        raise Exception(f"Status code of request response was {response.status_code}.")
+        raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
     return id_dict
 
 def get_process_id(process, auth):
@@ -70,12 +70,12 @@ def get_process_id(process, auth):
     """
 
     if isinstance(process, str):
-        response = requests.get(REST_URL+f"processes?name={process}", auth=auth)
+        response = requests.get(REST_URL+f"processes?name={process}", auth=auth, timeout=TIMEOUT)
         if response.status_code == 200:
             json_data = response.json()
             process_id = json_data["data"][0]["id"]
         else:
-            raise Exception(f"Status code of request response was {response.status_code}.")
+            raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
     elif isinstance(process, int):
         process_id = process
     return process_id
@@ -98,12 +98,12 @@ def get_start_timestamp(process, auth):
         Timestamp of process start.
     """
     process = get_process_id(process, auth)
-    response = requests.get(REST_URL+f"processes/{process}", auth=auth)
+    response = requests.get(REST_URL+f"processes/{process}", auth=auth, timeout=TIMEOUT)
     if response.status_code == 200:
         json_data = response.json()
         start_timestamp = json_data["data"]["startTimestamp"]
     else:
-        raise Exception(f"Status code of request response was {response.status_code}.")
+        raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
     return start_timestamp
 
 def get_port_id(port, auth):
@@ -125,12 +125,12 @@ def get_port_id(port, auth):
     """
 
     if isinstance(port, str):
-        response = requests.get(REST_URL+f"ports?name={port}", auth=auth)
+        response = requests.get(REST_URL+f"ports?name={port}", auth=auth, timeout=TIMEOUT)
         if response.status_code == 200:
             json_data = response.json()
             port_id = json_data["data"][0]["id"]
         else:
-            raise Exception(f"Status code of request response was {response.status_code}.")
+            raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
     elif isinstance(port, int):
         port_id = port
     return port_id
@@ -156,12 +156,12 @@ def get_signal_id(process, port, auth):
 
     if isinstance(port, str):
         port = get_port_id(port, auth)
-        response = requests.get(REST_URL+f"signals?processId={process}&portId={port}", auth=auth)
+        response = requests.get(REST_URL+f"signals?processId={process}&portId={port}", auth=auth, timeout=TIMEOUT)
         if response.status_code == 200:
             json_data = response.json()
             signal_id = json_data["data"]["id"]
         else:
-            raise Exception(f"Status code of request response was {response.status_code}.")
+            raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
     else:
         signal_id = port
 
@@ -294,10 +294,10 @@ def get_signals(process, port_names, auth, interval=0, devices=None):
         )
         response = requests.get(
             port_url,
-            auth=auth
+            auth=auth, timeout=TIMEOUT
         )
         if response.status_code != 200:
-            raise Exception(f"Status code of request response was {response.status_code}.")
+            raise requests.HTTPError(f"Status code of request response was {response.status_code}.")
         json_data.append(response.json())
     return json_data
 
@@ -318,7 +318,7 @@ def get_process_signal_info(process, auth):
     """
     process = get_process_id(process, auth)
 
-    response = requests.get(REST_URL+ f"signals?processId={process}", auth=auth)
+    response = requests.get(REST_URL+ f"signals?processId={process}", auth=auth, timeout=TIMEOUT)
     process_signals = pd.DataFrame(response.json()["data"])
 
     for column in ["port", "reactor", "device", "subDevice"]:
@@ -385,7 +385,7 @@ def get_running_reactors(auth):
     running_reactors : dict
         Dictionary with running reactors as keys and process IDs as values.
     """
-    response = requests.get(REST_URL+"reactors?running=true", auth=auth)
+    response = requests.get(REST_URL+"reactors?running=true", auth=auth, timeout=TIMEOUT)
     data = response.json()["data"]
     running_reactors = {}
     for item in data:
@@ -405,7 +405,7 @@ def get_running_processes(auth):
     running_processes : dict
         Dictionary with running reactors as keys and process IDs as values.
     """
-    response = requests.get(REST_URL+"processes?running=true", auth=auth)
+    response = requests.get(REST_URL+"processes?running=true", auth=auth, timeout=TIMEOUT)
     data = response.json()["data"]
     running_processes = {}
     for item in data:
@@ -432,7 +432,7 @@ def get_process_state(process, auth, verbose=True):
         whether verbose is set to True or False.
     """
     process = get_process_id(process, auth)
-    response = requests.get(REST_URL+f"processes/{process}", auth=auth)
+    response = requests.get(REST_URL+f"processes/{process}", auth=auth, timeout=TIMEOUT)
     process_state = response.json()["data"]["state"]
     if verbose:
         process_state = response.json()["included"]["processStateCodes"]["name"]
@@ -465,7 +465,7 @@ def get_current_values(reactor_name, port, auth):
     link = REST_URL+"reactors/"+reactor_name+"?currentValues="+port_id_str
     response = requests.get(
         link,
-        auth=auth)
+        auth=auth, timeout=TIMEOUT)
     current_values = {}
     if response.status_code == 200:
         data = response.json()["data"]
@@ -506,7 +506,8 @@ def set_current_values(process, updated_ports, auth):
         response = requests.put(
             link, data=json.dumps({"currentValue": updated_ports[port]}),
             auth=auth,
-            headers=headers
+            headers=headers,
+            timeout=TIMEOUT
         )
         if response.status_code != 200:
             warnings.warn(
@@ -532,7 +533,7 @@ def get_attributes(process, auth):
     """
     process = get_process_id(process, auth)
 
-    response = requests.get(REST_URL + f"processes/{process}", auth=auth)
+    response = requests.get(REST_URL + f"processes/{process}", auth=auth, timeout=TIMEOUT)
     attribute_values = response.json()["data"]["attributes"]
     attribute_values = pd.concat(
         [
@@ -542,7 +543,7 @@ def get_attributes(process, auth):
     )
     attribute_values.set_index("definitionId", drop=True, inplace=True)
 
-    response = requests.get(REST_URL + f"attributedefinitions?processIds={process}", auth=auth)
+    response = requests.get(REST_URL + f"attributedefinitions?processIds={process}", auth=auth, timeout=TIMEOUT)
     attributes_meta_info = response.json()["data"]
     attributes_meta_info = pd.concat(
         [
@@ -582,7 +583,7 @@ def set_attributes(process, updated_attributes, auth):
     response = requests.put(
         REST_URL + "processes/{process}/attributes",
         data=json.dumps(updated_attributes),
-        auth=auth, headers=headers
+        auth=auth, headers=headers, timeout=TIMEOUT
     )
     if response.status_code != 200:
         warnings.warn(
@@ -607,7 +608,7 @@ def get_media_table(process, auth):
         Table containing information on recipes, lots, amounts etc.
     """
     process = get_process_id(process, auth)
-    response = requests.get(REST_URL + f"processes/{process}", auth=auth)
+    response = requests.get(REST_URL + f"processes/{process}", auth=auth, timeout=TIMEOUT)
     json_medium_data = response.json()["data"]["medium"]
 
     # index = list(json_medium_data.keys())
@@ -655,7 +656,7 @@ def get_recipe_table(recipe, auth):
     """
 
     link = REST_URL+"recipes/"+str(recipe)
-    response = requests.get(link, auth=auth)
+    response = requests.get(link, auth=auth, timeout=TIMEOUT)
     json_data = response.json()
 
     action_dict = {}
@@ -702,7 +703,7 @@ def get_process_attributes(process, auth):
         Process attributes together with their values.
     """
     process = get_process_id(process, auth)
-    response = requests.get(REST_URL + f"processes/{process}", auth=auth)
+    response = requests.get(REST_URL + f"processes/{process}", auth=auth, timeout=TIMEOUT)
     json_data = response.json()
     process_attributes = {}
     for attribute_val in json_data["data"]["attributes"]:
