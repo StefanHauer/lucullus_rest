@@ -2,6 +2,8 @@
 
 ![version](https://img.shields.io/badge/version-0.1-brightgreen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/StefanHauer/lucullus_rest/blob/main/LICENSE.txt)
+![pylint](https://github.com/StefanHauer/lucullus_rest/actions/workflows/pylint.yml/badge.svg)
+![Downloads](https://img.shields.io/github/downloads/StefanHauer/lucullus_rest/total)
 
 **lucullus_rest** is a Python package to access information via the REST-API of the Lucullus Process and Information Management System (PIMS) of Securecell. It is meant to make retrieval of information as easy as possible and to also provide a simple framework for creating process control loops for bioprocesses.
 
@@ -34,7 +36,7 @@ This package was created for use of **Python 3.11** together with **Lucullus 23.
   * pandas >= 1.5.2
   * requests >= 2.31.0
   * json >= 2.0.9
-  * ipadress >= 1.0
+  * ipaddress >= 1.0
 
 ## Usage
 
