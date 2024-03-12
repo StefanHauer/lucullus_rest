@@ -21,9 +21,4 @@ jobs:
         pip install -e .
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --output=lint.txt || true
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: lint.txt
-        path: lint.txt
+        pylint $(git ls-files '*.py') --fail-under=9 --disable=C0114,C0115,C0116 --exit-zero
