@@ -10,11 +10,11 @@ and unzip it.
 
 Use "cd" in your console to move to the new unzipped folder like this.
 
-.. code-block::
+.. code-block:: console
     cd C:\Users\user\Downloads\lucullus_rest-main\lucullus_rest-main
 
 Finally install lucullus_rest with the following command. This installs lucullus_rest for your
 current user with all its dependent Python libraries.
 
-.. code-block::
+.. code-block:: console
     python setup.py install --user
