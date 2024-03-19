@@ -22,11 +22,11 @@
 
 ## Installation
 
-Download the repository from [github](https://github.com/StefanHauer/lucullus_rest) and save it to a folder on your path. For this either
-  * add the folder to your system path,
-  * or add the files into the folder "site-packages" where your Python installation resides.
+Download the repository from [github](https://github.com/StefanHauer/lucullus_rest), and unzip it. Afterward, insall it via the setup.py file:
 
-Afterward, change the variable *rest_url* to use the IP adress of your Lucullus server.
+```console
+python setup.py install --user
+```
 
 ## Dependencies 
 
@@ -197,7 +197,7 @@ In this example, there is only the __init__ function, which defines the needed p
 
 ### Further Information
 
-More examples of use cases or controllers can be found in this repository under [/docs/examples](https://github.com/StefanHauer/lucullus_rest/tree/main/docs/examples) as Jupyter notebooks.
+This README file is supposed to give only a very quick overview of the *lucullus_rest* package, a more detailed documentation can be found [online](https://stefanhauer.github.io/lucullus_rest). Additionally, more examples of use cases or controllers can be found in this repository under [/examples](https://github.com/StefanHauer/lucullus_rest/tree/main/docs/examples) as Jupyter notebooks.
 
 ## Roadmap
 
