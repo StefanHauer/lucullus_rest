@@ -1,3 +1,8 @@
+# Importing the package in the conf.py file seems to be necessary
+# for autodoc.
+# Source: https://stackoverflow.com/questions/63261090/github-sphinx-action-cant-find-target-python-modules-and-builds-an-empty-sphinx
+import lucullus_rest
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
