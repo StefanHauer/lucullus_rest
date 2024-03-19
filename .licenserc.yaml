@@ -6,7 +6,7 @@ header:
     software-name: lucullus_rest
     pattern: |
       MIT License
-      Copyright (c) [copyright-year] [owner]
+      Copyright \(c\) [copyright-year] [owner]
 
       Permission is hereby granted, free of charge, to any person obtaining a copy
       of this software and associated documentation files (the "Software"), to deal
@@ -33,13 +33,13 @@ header:
       extensions: #<13>
         - ".py"
       filenames: #<14>
-        - "./lucullus_rest/__init__.py"
-        - "./lucullus_rest/core.py"
-        - "./lucullus_rest/utils.py"
+        - "__init__.py"
+        - "core.py"
+        - "utils.py"
       comment_style_id: Hashtag # <15>
 
   paths: # <7>
-    - './lucullus_rest'
+    - '**'
 
   paths-ignore:
     - '**/*.md'
