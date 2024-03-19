@@ -10,6 +10,7 @@ jobs:
       - name: Fix License Header
         uses: apache/skywalking-eyes/header@main
         with:
+          log: debug
           mode: fix
       - name: Apply Changes
         uses: EndBug/add-and-commit@v4
