@@ -7,9 +7,12 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Fix License Header
         uses: apache/skywalking-eyes/header@main
         with:
+          config: .licenserc.yaml
           log: debug
           mode: fix
       - name: Apply Changes
