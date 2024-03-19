@@ -1,6 +1,5 @@
 header:
   license:
-    spdx-id: MIT
     copyright-owner: ZHAW (Institute of Embedded Systems at Zurich University of Applied Sciences) & Securecell AG
     copyright-year: '2023-2024'
     software-name: lucullus_rest
@@ -39,7 +38,7 @@ header:
       comment_style_id: Hashtag # <15>
 
   paths: # <7>
-    - '**'
+    - './lucullus_rest'
 
   paths-ignore:
     - '**/*.md'
