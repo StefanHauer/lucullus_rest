@@ -10,13 +10,13 @@ header:
       extensions: #<13>
         - ".py"
       filenames: #<14>
-        - "__init__.py"
-        - "core.py"
-        - "utils.py"
+        - "./lucullus_rest/__init__.py"
+        - "./lucullus_rest/core.py"
+        - "./lucullus_rest/utils.py"
       comment_style_id: Hashtag # <15>
 
   paths: # <7>
-    - '**'
+    - './lucullus_rest'
 
   paths-ignore:
     - '**/*.md'
