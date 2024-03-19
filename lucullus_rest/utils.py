@@ -21,8 +21,6 @@
 #
 # https://mit-license.org/
 
-#
-
 """Utility functions to perform easy tasks."""
 
 import pandas as pd

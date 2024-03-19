@@ -21,8 +21,6 @@
 #
 # https://mit-license.org/
 
-#
-
 """
 lucullus_rest
 =============
