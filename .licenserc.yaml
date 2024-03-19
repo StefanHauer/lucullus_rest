@@ -38,7 +38,7 @@ header:
       comment_style_id: Hashtag # <15>
 
   paths: # <7>
-    - './lucullus_rest'
+    - '**/lucullus_rest/*.py'
 
   paths-ignore:
     - '**/*.md'
