@@ -13,7 +13,6 @@ control loops for bioprocesses.
    quickstart
    examples
    reference
-   ...
 
 Indices and tables
 ==================
