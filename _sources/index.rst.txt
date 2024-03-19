@@ -6,6 +6,9 @@
 Welcome to lucullus_rest's documentation!
 =========================================
 
+.. automodule:: lucullus_rest.core
+    :members:
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -18,8 +21,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-Trying out autodoc
-=================
-
-.. autoclass:: lucullus_rest.Controller
