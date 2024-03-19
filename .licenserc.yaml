@@ -1,0 +1,25 @@
+header:
+  license:
+    spdx-id: MIT
+    copyright-owner: ZHAW (Institute of Embedded Systems at Zurich University of Applied Sciences) & Securecell AG
+    copyright-year: '2023-2024'
+    software-name: lucullus_rest
+
+  language: # <11>
+    Python: # <12>
+      extensions: #<13>
+        - ".py"
+      filenames: #<14>
+        - "__init__.py"
+        - "core.py"
+        - "utils.py"
+      comment_style_id: Hashtag # <15>
+
+  paths: # <7>
+    - '**'
+
+  paths-ignore:
+    - '**/*.md'
+    - 'LICENSE'
+
+  comment: on-failure
