@@ -22,4 +22,4 @@ Indices and tables
 Trying out autodoc
 =================
 
-.. autoclass:: Controller
+.. autoclass:: lucullus_rest.Controller
