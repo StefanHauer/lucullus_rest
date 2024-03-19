@@ -25,6 +25,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="examples.html" title="Examples"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">lucullus_rest  documentation</a> &#187;</li> 
@@ -36,8 +39,593 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-lucullus_rest.core">
+<span id="reference"></span><h1>Reference<a class="headerlink" href="#module-lucullus_rest.core" title="Permalink to this headline">¶</a></h1>
+<p>Provide an interface to access the Lucullus REST API with python
+commands.</p>
+<dl class="class">
+<dt id="lucullus_rest.core.Controller">
+<em class="property">class </em><code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">Controller</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">ports</em>, <em class="sig-param">auth</em>, <em class="sig-param">calc_fun=None</em>, <em class="sig-param">output_fun=None</em>, <em class="sig-param">output_attr_fun=None</em>, <em class="sig-param">end_condition=None</em>, <em class="sig-param">interp_interval=0</em>, <em class="sig-param">update_interval=300</em>, <em class="sig-param">save_path=None</em>, <em class="sig-param">print_progress=True</em>, <em class="sig-param">overwrite=False</em>, <em class="sig-param">historic_processes=None</em>, <em class="sig-param">devices=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Class controller that periodically</dt><dd><ol class="arabic simple">
+<li><p>collects data over Lucullus REST-API,</p></li>
+<li><p>performs calculations on collected data,</p></li>
+<li><p>acts on calculations by setting current values</p></li>
+</ol>
+</dd>
+<dt>Attributes</dt><dd><dl class="simple">
+<dt>process<span class="classifier">id or str</span></dt><dd><p>Process name as string or process id as integer</p>
+</dd>
+<dt>ports<span class="classifier">list</span></dt><dd><p>List of strings of ports to collect in collection
+step</p>
+</dd>
+<dt>auth<span class="classifier">tuple</span></dt><dd><p>Tuple of username and pasword for authentication</p>
+</dd>
+<dt>calc_fun<span class="classifier">function, default None</span></dt><dd><p>A function with two inputs, first one a dataframe with
+the collected data, a second one with the already
+calculated data. Returns a new dataframe to replace
+calculated data.</p>
+</dd>
+<dt>output_fun<span class="classifier">function, default None</span></dt><dd><p>A function with two inputs, first one a dataframe with
+the collected data, a second one with the already
+calculated data. Returns a dictionary of ports to
+update for process.</p>
+</dd>
+<dt>end_condition<span class="classifier">function, default None</span></dt><dd><p>A function with two inputs, first one a dataframe with
+the collected data, a second one with the already
+calculated data. Returns True or False whether or not
+the update cycle of the controller should continue or
+not. If is None, will continue indefinetely.</p>
+</dd>
+<dt>interp_interval<span class="classifier">float, default 0</span></dt><dd><p>Interval in seconds for interpolation of collected data</p>
+</dd>
+<dt>update_interval<span class="classifier">float, default 300</span></dt><dd><p>Interval in seconds for the amount of time that should
+be waited between continuing the collect, calculate,
+act cycle again. If the time for the cycle is longer
+than the interval, will continue immediately.</p>
+</dd>
+<dt>save_path<span class="classifier">string or None, default None</span></dt><dd><p>Path where output should be stored as csv. If None,
+will not save as csv.</p>
+</dd>
+<dt>collected_data<span class="classifier">pd.DataFrame</span></dt><dd><p>Data that is collected from process.</p>
+</dd>
+<dt>attributes<span class="classifier">dictionary</span></dt><dd><p>Attributes that are collected from process</p>
+</dd>
+<dt>calculated_data<span class="classifier">pd.DataFrame</span></dt><dd><p>Data that is calculated from collected data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The controller needs the writable ports ‘ST_LastUpdate’ and
+‘ST_NextUpdate’ (datatpye is string) which need to be logged by
+default. Otherwise there will be error messages.</p>
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.collect_attributes">
+<code class="sig-name descname">collect_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.collect_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect attributes of process.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.collect_data">
+<code class="sig-name descname">collect_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.collect_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect data specified by process and ports and write
+them to collected_data as a pandas dataframe.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.function_test">
+<code class="sig-name descname">function_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.function_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform function test if data collection,
+calculations and saving run without error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.save_data">
+<code class="sig-name descname">save_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.save_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save data as csv-file under path specified in
+save_path attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.simulate_performance">
+<code class="sig-name descname">simulate_performance</code><span class="sig-paren">(</span><em class="sig-param">collected_data</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.simulate_performance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate the response of the controller from simulated
+process data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>collected_data</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>updated_ports</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.start_update_cycle">
+<code class="sig-name descname">start_update_cycle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.start_update_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Continually perform update in the intervall defined in unpdate_interval.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a single time the whole loop consisting of
+* self.collect_data()
+* self.collect_attributes()
+* self.update_calculations()
+* self.update_ports()
+* self.update_attributes()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.update_attributes">
+<code class="sig-name descname">update_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.update_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update attributes based on collected data, attributes, and calculated data by calling
+output_fun and then update the ports defined in the output.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.update_calculations">
+<code class="sig-name descname">update_calculations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.update_calculations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform calculations by calling the function stored in calc_fun.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="lucullus_rest.core.Controller.update_ports">
+<code class="sig-name descname">update_ports</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.Controller.update_ports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update ports based on collected data, attributes, and calculated data by calling
+output_fun and then update the ports defined in the output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.export_to_df">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">export_to_df</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">port_names</em>, <em class="sig-param">auth</em>, <em class="sig-param">interval=0</em>, <em class="sig-param">return_device=False</em>, <em class="sig-param">interpolate=False</em>, <em class="sig-param">backfill=False</em>, <em class="sig-param">devices=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.export_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get pandas dataframe of process data of specified process
+and port names with the process time as index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – Either process name as string or process name as int.</p></li>
+<li><p><strong>port_names</strong> (<em>list</em>) – List of strings specifying the port names.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of user name and password for authentication</p></li>
+<li><p><strong>interval</strong> (<em>int</em><em>, </em><em>default=0</em>) – Interval in seconds for export of signals. If 0, exports
+all datapoints.</p></li>
+<li><p><strong>interpolate</strong> (<em>str</em><em> or </em><em>False</em><em>, </em><em>default=False</em>) – Method to interpolate missing signals in the dataframe.
+Same as method of pd.DataFrame.interpolate. If no
+interpolation is wanted, set it to False</p></li>
+<li><p><strong>device</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If true, also return list of subdevices.</p></li>
+<li><p><strong>backfil</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If true, starting values of columns are backfilled with
+first value of column.</p></li>
+<li><p><strong>devices</strong> (<em>list of str</em><em>, </em><em>default=None</em>) – Devices specified for the port, in case there are duplicate
+port names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>process_data</strong> (<em>pandas DataFrame</em>) – Pandas dataframe with exported ports of process.</p></li>
+<li><p><strong>subdevices</strong> (<em>list</em>) – Returned if device=True. List of subdevice names.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>In its current state, even if we use interpolation of the
+signals we might run into the problem of signals being not
+properly aligned to each other. The reason for this is,
+that each signal is interpolated on each own, so if the
+first signals are not aligned, the whole dataframe will
+be disaligned.
+Additionally, the interval function of Lucullus seems to
+sometimes generate fake values. This is under investigation.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">export_to_df</span><span class="p">(</span><span class="s2">&quot;process&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;pO2&quot;</span><span class="p">,</span> <span class="s2">&quot;IO_pO2_control&quot;</span><span class="p">],</span> <span class="n">auth</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">backfill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">            pO2  IO_pO2_control</span>
+<span class="go">Time [h]</span>
+<span class="go">0.01       99.9             NaN</span>
+<span class="go">0.02      100.4             0.0</span>
+<span class="go">0.03       98.9             NaN</span>
+<span class="go">0.04       99.5             NaN</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">export_to_df</span><span class="p">(</span><span class="s2">&quot;process&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;pO2&quot;</span><span class="p">,</span> <span class="s2">&quot;IO_pO2_control&quot;</span><span class="p">],</span> <span class="n">auth</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">backfill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">            pO2  IO_pO2_control</span>
+<span class="go">Time [h]</span>
+<span class="go">0.01       99.9             NaN</span>
+<span class="go">0.02      100.4             0.0</span>
+<span class="go">0.03       98.9             0.0</span>
+<span class="go">0.04       99.5             0.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">export_to_df</span><span class="p">(</span><span class="s2">&quot;process&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;pO2&quot;</span><span class="p">,</span> <span class="s2">&quot;IO_pO2_control&quot;</span><span class="p">],</span> <span class="n">auth</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">backfill</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">            pO2  IO_pO2_control</span>
+<span class="go">Time [h]</span>
+<span class="go">0.01       99.9             0.0</span>
+<span class="go">0.02      100.4             0.0</span>
+<span class="go">0.03       98.9             0.0</span>
+<span class="go">0.04       99.5             0.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_attributes">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_attributes</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get attributes of process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>id</em><em> or </em><em>str</em>) – Either process name or id.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>attributes</strong> – Attributes of specified process.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_current_values">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_current_values</code><span class="sig-paren">(</span><em class="sig-param">reactor_name</em>, <em class="sig-param">port</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_current_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get current values of reactor with “reactor_name” and of
+ports with “ports_id”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reactor_name</strong> (<em>str</em>) – Name of reactor.</p></li>
+<li><p><strong>port</strong> (<em>int</em><em>, </em><em>str</em><em> or </em><em>list of int</em><em> or </em><em>list of str</em>) – ID of port or list of IDs of several ports.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>current_values</strong> – Dictionary with port names and time as “Time [h]”.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_df_from_json">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_df_from_json</code><span class="sig-paren">(</span><em class="sig-param">json_data</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_df_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform json file into df that is of form as one would get from lucullus export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>json_data</strong> (<em>dict</em>) – List of Json files that is retrieved from signals.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>export_df</strong> – Pandas dataframe with data stored under the port name and “Time [h]” as index.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_media_table">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_media_table</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_media_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table of media of process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>id</em><em> or </em><em>str</em>) – Either process name or id.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>media_table</strong> – Table containing information on recipes, lots, amounts etc.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_name_to_id_dict">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_name_to_id_dict</code><span class="sig-paren">(</span><em class="sig-param">resource_type</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_name_to_id_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create dictionary that takes names as keys and IDs
+as values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_type</strong> (<em>{&quot;ports&quot;</em><em>, </em><em>&quot;processes&quot;</em><em>, </em><em>&quot;reactors&quot;</em><em>, </em><em>&quot;attributedefinitions&quot;}</em>) – String of type of dictionary.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>and port IDs as values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>* Dictionary that takes port names (str) as keys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_port_id">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_port_id</code><span class="sig-paren">(</span><em class="sig-param">port</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_port_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get port id from port name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>port</strong> (<em>str</em><em> or </em><em>int</em>) – If str then it returns the port ID
+corresponding to the process name, if int just returns
+port.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>port_id</strong> – Int ID of lucullus port.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_process_attributes">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_process_attributes</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_process_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get dictionary of attributes of specified process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>id</em><em> or </em><em>str</em>) – Either process name as string or process id as string.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of user name and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>process_attributes</strong> – Process attributes together with their values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_process_id">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_process_id</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_process_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get process id from process name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – If str then it returns the process ID
+corresponding to the process name, if int just return
+process.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>process_id</strong> – Int ID of lucullus process</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_process_signal_info">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_process_signal_info</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_process_signal_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get pandas dataframe of info of process signals for process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – Either process name as string or process name as int.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of user name and password for authentication.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>process_signals</strong> – Pandas dataframe with basic info of signals associated with process.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_process_state">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_process_state</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_process_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the state of the specified process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – Either process name as string or process name as int.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>default=True</em>) – If True, returns the process state as a string, if False,
+returns the process state as an integer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>process_state</strong> – String/Integer value defining the process state, based on
+whether verbose is set to True or False.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str or int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_recipe_table">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_recipe_table</code><span class="sig-paren">(</span><em class="sig-param">recipe</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_recipe_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table for a specific recipe containing ingrediants, actions, etc.</p>
+<dl class="simple">
+<dt>recipe<span class="classifier">string or int</span></dt><dd><p>Name of recipe.</p>
+</dd>
+<dt>auth<span class="classifier">tuple</span></dt><dd><p>Tuple of user name and password.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>recipe_table</strong> – Recipe table showing actions and materials of recipe.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pandas dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_running_processes">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_running_processes</code><span class="sig-paren">(</span><em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_running_processes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get names and ids of processes with status “running”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>running_processes</strong> – Dictionary with running reactors as keys and process IDs as values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_running_reactors">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_running_reactors</code><span class="sig-paren">(</span><em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_running_reactors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get names and process ids of reactors with status “running”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>running_reactors</strong> – Dictionary with running reactors as keys and process IDs as values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_signal_id">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_signal_id</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">port</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_signal_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get signal id from process and port name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – Process name or process ID.</p></li>
+<li><p><strong>port</strong> (<em>str</em><em> or </em><em>int</em>) – Port name or port ID.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>signal_id</strong> – Signal ID of lucullus signal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_signals">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_signals</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">port_names</em>, <em class="sig-param">auth</em>, <em class="sig-param">interval=0</em>, <em class="sig-param">devices=None</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_signals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get json file of process data of specified process and port names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – Either process name as string or process name as int.</p></li>
+<li><p><strong>port_names</strong> (<em>list</em>) – List of strings specifying the port names.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of user name and password for authentication.</p></li>
+<li><p><strong>interval</strong> (<em>int</em><em>, </em><em>default=0</em>) – Interval in seconds for interpolation of data.</p></li>
+<li><p><strong>devices</strong> (<em>list of str</em><em>, </em><em>default=None</em>) – Devices specified for the port, in case there are duplicate
+port names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>json_data</strong> – json file with exported ports of process.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.get_start_timestamp">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">get_start_timestamp</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.get_start_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get timestamp of process start.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>str</em><em> or </em><em>int</em>) – If str then it returns the process ID
+corresponding to the process name, if int just return
+process.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>start_timestamp</strong> – Timestamp of process start.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.set_attributes">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">set_attributes</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">updated_attributes</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.set_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes of process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>id</em><em> or </em><em>str</em>) – Either process name or id.</p></li>
+<li><p><strong>updated_attributes</strong> (<em>dict</em>) – Dictionary where the keys are the attribute IDs and the
+values the new value to set this attribute to.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="lucullus_rest.core.set_current_values">
+<code class="sig-prename descclassname">lucullus_rest.core.</code><code class="sig-name descname">set_current_values</code><span class="sig-paren">(</span><em class="sig-param">process</em>, <em class="sig-param">updated_ports</em>, <em class="sig-param">auth</em><span class="sig-paren">)</span><a class="headerlink" href="#lucullus_rest.core.set_current_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set current port values of process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>process</strong> (<em>id</em><em> or </em><em>str</em>) – Either process name or id.</p></li>
+<li><p><strong>updated_ports</strong> (<em>dict</em>) – Dictionary where the keys are the port_IDs and the values
+the new value to write to this port.</p></li>
+<li><p><strong>auth</strong> (<em>tuple</em>) – Tuple of username and password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -76,6 +664,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="examples.html" title="Examples"
              >previous</a> |</li>
