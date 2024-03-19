@@ -1,19 +1,20 @@
-.. lucullus_rest documentation master file, created by
-   sphinx-quickstart on Tue Mar 12 21:31:24 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to lucullus_rest's documentation!
 =========================================
 
-.. automodule:: lucullus_rest.core
-    :members:
+lucullus_rest is a Python package to access information via the REST-API of the Lucullus
+Process and Information Management System (PIMS) of Securecell. It is meant to make retrieval
+of information as easy as possible and to also provide a simple framework for creating process
+control loops for bioprocesses. 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   quickstart
+   examples
+   reference
+   about
+   ...
 
 Indices and tables
 ==================
