@@ -22,4 +22,4 @@ header:
     - '**/*.md'
     - 'LICENSE'
 
-  comment: on-failure
+  comment: always
