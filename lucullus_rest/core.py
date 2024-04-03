@@ -385,6 +385,8 @@ def get_df_from_json(json_data):
         pd.DataFrame(
             data=x["data"]["values"], columns=["Time [h]", x["data"]["port"]["name"]]
         ).round({"Time [h]":5}).drop_duplicates(subset="Time [h]").set_index("Time [h]")
+        if "values" in x["data"].keys() 
+        else pd.DataFrame(columns=[x["data"]["port"]["name"]], index=pd.Index(data=[], name="Time [h]"))
         for x in json_data
     ]
 

@@ -3,3 +3,4 @@ docs/examples/__pycache__/
 .eggs/
 lucullus_rest.egg-info/
 dist/
+build/*
