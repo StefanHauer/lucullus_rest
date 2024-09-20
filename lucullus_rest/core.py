@@ -304,17 +304,23 @@ def get_signals(process, port_names, auth, interval=0, devices=None):
     process = get_process_id(process, auth)
     signal_info = get_process_signal_info(process, auth)
     is_in_port_names = [x in port_names for x in signal_info["portName"]]
-    port_ids = signal_info[is_in_port_names]["portId"].astype("str")
+    port_ids = signal_info[is_in_port_names]["portId"].astype("int")
     if devices is None:
-        devices = signal_info[is_in_port_names]["deviceId"].astype("str")
+        devices = signal_info[is_in_port_names]["deviceId"].astype("int")
     else:
         raise NotImplementedError("Steve (hatr) is sorry...")
     json_data = []
     for port, dev in zip(port_ids, devices):
-        port_url = (
-            f"{REST_URL}signals?processId={process}"
-            f"&portId={port}&deviceId={dev}&interval={interval}"
-        )
+        if np.isnan(dev):
+                port_url = (
+                f"{REST_URL}signals?processId={process}"
+                f"&portId={int(port)}&interval={interval}"
+            )
+        else:
+            port_url = (
+                f"{REST_URL}signals?processId={process}"
+                f"&portId={int(port)}&deviceId={int(dev)}&interval={interval}"
+            )
         response = requests.get(
             port_url,
             auth=auth, timeout=TIMEOUT
@@ -349,6 +355,7 @@ def get_process_signal_info(process, auth):
             [
                 pd.DataFrame(x, index=[idx])
                 for idx, x in enumerate(process_signals[column].values)
+                if isinstance(x, dict)
             ]
         )
         process_signals.drop(column, axis="columns", inplace=True)
@@ -377,7 +384,7 @@ def get_df_from_json(json_data):
 
     # I know it seems weird to set Time as a columns and then set as index
     # But this makes it easer for the case when there is no data there
-
+    #   - Todo
     # Yes, rounding the Time to 5 decimal places is weird, but otherwise data
     # from the same timestamp might be misaligned due to rounding errors.
 
