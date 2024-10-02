@@ -596,9 +596,12 @@ def get_attributes(process, auth):
 
     attributes = {}
     for attribute_id in attribute_values.index.values:
-        key = attributes_meta_info.loc[attribute_id, "name"]
-        value = attribute_values.loc[attribute_id, "value"]
-        attributes.update({key: value})
+        try:
+            key = attributes_meta_info.loc[attribute_id, "name"]
+            value = attribute_values.loc[attribute_id, "value"]
+            attributes.update({key: value})
+        except KeyError:
+            print("This seems to be a locally defined attribute, retrieval is currently not supported")
     return attributes
 
 def set_attributes(process, updated_attributes, auth):
