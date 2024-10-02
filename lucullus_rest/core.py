@@ -567,6 +567,15 @@ def get_attributes(process, auth):
 
     response = requests.get(REST_URL + f"processes/{process}", auth=auth, timeout=TIMEOUT)
     attribute_values = response.json()["data"]["attributes"]
+    # When this function was initially created, the author assumed that there would always
+    # be a key 'value' where there is a string. However, when an attribute is a vector,
+    # there will be 'elements' and it will be a list. At this current time this is
+    # inconvenient, so we replace 'elements' with 'value' and make it a string for
+    # consistency of this library.
+    for a in attribute_values:
+        if "elements" in a.keys():
+            a["value"] = str(a["elements"])
+            a.pop("elements")
     attribute_values = pd.concat(
         [
             pd.DataFrame(a, index=[idx])
