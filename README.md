@@ -22,7 +22,7 @@
 
 ## Installation
 
-Download the repository from [GitHub](https://github.com/StefanHauer/lucullus_rest), and unzip it. Afterward, install it via the setup.py file:
+Download the repository from [GitHub](https://github.com/StefanHauer/lucullus_rest), and unzip it. Afterward, change the IP address in the *core.py* file, and install it via the setup.py file:
 
 ```console
 python setup.py install --user
