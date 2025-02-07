@@ -29,7 +29,7 @@ import warnings
 import os
 import json
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from ipaddress import ip_address
 import requests
 import numpy as np
@@ -914,9 +914,9 @@ class Controller:
 
         continue_process = self.end_condition(self.collected_data, self.calculated_data)
         while continue_process and self._process_is_running():
-            start_time = datetime.utcnow()
+            start_time = datetime.now(timezone.utc)
             self.update()
-            end_time = datetime.utcnow()
+            end_time = datetime.now(timezone.utc)
             sleep_time = start_time + time_delta - end_time
             if sleep_time.total_seconds() > 0:
                 time.sleep(sleep_time.total_seconds())
