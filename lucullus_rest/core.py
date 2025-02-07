@@ -534,19 +534,24 @@ def set_current_values(process, updated_ports, auth):
     signal_info = get_process_signal_info(process, auth)
     headers={"Content-Type":"application/json"}
     for port in port_names:
-        signal_id = signal_info[signal_info["portName"] == port]["id"].values[0]
-        link = REST_URL+f"signals/{signal_id}"
-        response = requests.put(
-            link, data=json.dumps({"currentValue": updated_ports[port]}),
-            auth=auth,
-            headers=headers,
-            timeout=TIMEOUT
-        )
-        if response.status_code != 200:
+        try:
+            signal_id = signal_info[signal_info["portName"] == port]["id"].values[0]
+            link = REST_URL+f"signals/{signal_id}"
+            response = requests.put(
+                link, data=json.dumps({"currentValue": updated_ports[port]}),
+                auth=auth,
+                headers=headers,
+                timeout=TIMEOUT
+            )
+            if response.status_code != 200:
+                warnings.warn(
+                    "Status code of request response for updating port"
+                    f" '{port}' was '{response.status_code}'. "
+                    f"'{response.text}'"
+                )
+        except IndexError:
             warnings.warn(
-                "Status code of request response for updating port"
-                f" '{port}' was '{response.status_code}'. "
-                f"'{response.text}'"
+                f"Port {port} could not be updated because it does not exist."
             )
 
 def get_attributes(process, auth):
