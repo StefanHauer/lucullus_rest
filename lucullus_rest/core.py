@@ -35,6 +35,7 @@ import requests
 import numpy as np
 import pandas as pd
 from lucullus_rest.utils import dictionaries_to_df
+import traceback
 
 REST_URL = "http://XXX.XXX.XXX.XXX:8080/lpims/rest/v1/"
 UNATTENDED_REQUEST = "?UNATTENDED_REQUEST=true"
@@ -940,9 +941,10 @@ class Controller:
             self.update_ports()
             self.update_attributes()
             self.save_data()
-        except Exception as error:
+        except Exception:
+            traceback.print_exc()
             warnings.warn(
-                f"{datetime.now()}: Exception encountered: {error}.\nContinue update cycle..."
+                f"{datetime.now()}: Continue update cycle..."
             )
 
     def collect_data(self):
