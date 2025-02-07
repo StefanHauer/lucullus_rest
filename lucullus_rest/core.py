@@ -399,7 +399,7 @@ def get_df_from_json(json_data):
 
     export_df = pd.concat(df_list, axis=1, sort=True)
     # df.index = df.index.astype(float)
-    export_df.index = pd.TimedeltaIndex(export_df.index.astype(float), unit="h")
+    export_df.index = pd.to_timedelta(export_df.index.astype(float), unit="h")
 
     # df.reset_index(inplace=True)
     return export_df
