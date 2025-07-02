@@ -631,7 +631,7 @@ def set_attributes(process, updated_attributes, auth):
     process = get_process_id(process, auth)
     headers={"Content-Type":"application/json"}
     response = requests.put(
-        REST_URL + "processes/{process}/attributes",
+        REST_URL + f"processes/{process}/attributes",
         data=json.dumps(updated_attributes),
         auth=auth, headers=headers, timeout=TIMEOUT
     )
